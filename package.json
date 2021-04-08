@@ -1,0 +1,25 @@
+{
+  "name": "SSI",
+  "version": "1.0.0",
+  "description": "Seguridad en sistemas informáticos",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miguel-martinr/SSI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miguel-martinr/SSI/issues"
+  },
+  "homepage": "https://github.com/miguel-martinr/SSI#readme",
+  "devDependencies": {
+    "eslint": "^7.23.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}

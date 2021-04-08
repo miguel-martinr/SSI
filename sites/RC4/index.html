@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="./styles/stylesheet.css">
+  <title>RC4 Cipher</title>
+
+  <!-- PreScripts -->
+  <script type="module" src="./scripts/app.js"></script>
+</head>
+
+<body>
+  <h1>Cifrado RC4</h1>
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-sm">
+        <span class="font-weight-bold">Clave</span>
+        <input class="mx-5" type="password" id="key" placeholder="Example: 2, 5">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm">
+        <div id="showKey" class="my-3 ml-5">
+          <input type="checkbox" id="showKeyInput" onclick="toggleKeyView()">
+          <span id="showLeyLabel">Mostrar clave</span>
+          <!-- <button class="mx-3" type="button" onclick="updateKey()">Actualizar</button> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs ml-3">
+        <div class="text-center message-container form-group">
+          <label class="text-white" for="message">Mensaje</label>
+          <textarea class="form-control" id="message" rows="7" placeholder="Example: 1, 34"></textarea>
+        </div>
+
+      </div>
+      <div class="col-xs py-3 px-3">
+        <div class="buttons-container central-buttons">
+          <button class="btn btn-primary" type="button" onclick="processMessage()">Aplicar</button>
+        </div>
+      </div>
+      <div class="col-xs ml-3">
+        <div class="text-center  message-container form-group">
+          <label class="text-white" for="processedMessage">Mensaje Procesado</label>
+          <textarea class="form-control" id="processedMessage" rows="7" placeholder="Example: 145, 44"></textarea>
+        </div>
+        <button class="btn btn-scondary" onclick="copyProcessedToClipBoard()">Copiar</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col mt-5">
+        <div class="steps label"><strong>Pasos</strong></div>
+        <div class="steps-div"><textarea name="steps" id="process-steps" cols="85" rows="10"></textarea></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <br><br><br><br>
+      <h3 class="text-center">Cifrado RC4</h3>
+      <p class="text-center">
+        Esta implementación del cifrado RC4 trabaja con números decimales separados
+        por comas. Por ejemplo: 3, 14, 25.
+
+      </p>
+    </div>
+  </div>
+
+
+  </div>
+
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
