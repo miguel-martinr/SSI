@@ -2,6 +2,8 @@
 import { ByteMultiplier } from './byte-multipliers.js';
 
 export const AesCipher = function () {
+  /***********************************************************************************/
+  // Constantes
   // Multiplicador de bytes
   this.byteMultiplier = new ByteMultiplier(0x1b);
 
@@ -13,7 +15,6 @@ export const AesCipher = function () {
 
   // Estado (intermedio)
   this.state = [];
-
 
   // Caja S
   this.Sbox = [
@@ -57,16 +58,23 @@ export const AesCipher = function () {
     [0x03, 0x01, 0x01, 0x02],
   ];
 
+  /***********************************************************************************/
+  // Objetos para loggear la información en la página
+  this.log = [];
+  
+
+  /***********************************************************************************/
+  // Métodos
   /**
    * Receives a Number[] representing the initial text
    * @param {Number[]} key 
-   * @returns A Number[][] square matrix taking input as columns. For example:
+   * @returns A Number[][] square matrix. For example:
    * Input: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
    * Output: [
-   *           [0, 4, 8,  12], 
-   *           [1, 5, 9,  13],
-   *           [2, 6, 10, 14],
-   *           [3, 7, 11, 15],
+   *           [0,   1,  2,  3], 
+   *           [4,   5,  6,  7],
+   *           [8,   9, 10, 11],
+   *           [12, 12, 14, 15],
    *         ]
    */
   this.toMatrix = function (key) {
@@ -79,7 +87,7 @@ export const AesCipher = function () {
       }
     }
     
-    return this.transposeMatrix(settedKey);
+    return settedKey;
   }
 
   /**
@@ -91,18 +99,9 @@ export const AesCipher = function () {
     return transposedMatrix;
   }
 
-
-
   /**
-   * 00 01 02 03
-   * 10 11 12 13
-   * 20 21 22 23
-   * 30 31 32 33
+   * Multiplica una matriz por una columna y devuelve el resultado
    */
-
-/**
- * Multiplica una matriz por una columna y devuelve el resultado
- */
   this.XORmultiplyMatrixByColumn = function(matrix, column) {
     const result = [];
     for (let i = 0; i < 4; i++) {
@@ -115,11 +114,8 @@ export const AesCipher = function () {
   }
 
   /**
-   * Multiplica dos matrices cuadradas y retorna el resultado
+   * Retorna el resultado de aplicar la operación AddRoundKey entre dos matrices (xor)
    */
-  this.multiplyMatrix = function(matrix1, matrix2) {
-
-  }
   this.AddRoundKey = function (state, key) {
     return state.map((row, i) => this.xor(row, key[i]));
   };
@@ -146,7 +142,10 @@ export const AesCipher = function () {
     return shifted;
   }
 
-
+  /**
+   * Retorna el resultado de aplicar la operación MixColumn
+   * a la matris state
+   */
   this.MixColumn = function (state) {
     const result = []; 
     const transposedState = this.transposeMatrix(state);
@@ -157,6 +156,10 @@ export const AesCipher = function () {
     return this.transposeMatrix(result);
   }
 
+  /**
+   * Recibe dos vectores de igual longitud y retorna el resultado de aplicar la operación xor
+   * elemento a elemento.
+   */
   this.xor = function(array1, array2) {
     return array1.map((byte, index) => byte ^ array2[index]);
   }
@@ -171,7 +174,6 @@ export const AesCipher = function () {
 
     let expandedKey = [];
     let words = this.transposeMatrix(key);
-    // let words = key.map(row => [...row]);
     const keyLastColumn = [...words[words.length - 1]];
 
     words[words.length - 1].roundLeft();
@@ -206,21 +208,23 @@ export const AesCipher = function () {
   }
 
   /**
-   * 
+   * Cifra un bloque de texto de 16 elementos
    * @param {number[]} key 128 bits
    * @param {number[]} clearText 
    */
   this.cipher = function (Flatkey, clearText) {
-    const key = this.toMatrix(Flatkey);
+    // Pasamos la entrada a matriz y luego obtenemos la transpuesta
+    const key = this.transposeMatrix(this.toMatrix(Flatkey));
     
     // Cálculo de subclaves
     const subkeys = this.getSubkeys(key);
-    subkeys.forEach((subkey, i) => {
-      console.log(`R${i}: ${this.transposeMatrix(subkey).map(row=>row.map(b=>b.toString(16)))}`);
-    });
 
     // Ronda inicial
-    this.state = this.AddRoundKey(key, this.toMatrix(clearText));
+    this.state = this.AddRoundKey(key, this.transposeMatrix(this.toMatrix(clearText)));
+    
+    // Logging
+    this.log = [];
+    this.log.push({subkey: subkeys[0], state: this.state});
 
     //Ronda estándar
     for (let i = 1; i < this.numOfRounds; i++) {
@@ -235,6 +239,9 @@ export const AesCipher = function () {
 
       // AddRound key
       this.state = this.AddRoundKey(this.state, subkeys[i]);
+
+      // Logging
+      this.log.push({subkey: subkeys[i], state: this.state});
     }
 
     //Ronda final
@@ -247,84 +254,25 @@ export const AesCipher = function () {
     //AddRoundKey
     this.state = this.AddRoundKey(this.state, subkeys[subkeys.length - 1]);
 
-    return this.state.flat(Infinity);
+    // Logging
+    this.log.push({subkey: subkeys[10], state: this.state});
+
+    return this.transposeMatrix(this.state).flat(Infinity);
   };
 
 
 };
 
-let matrix = [
-  [0, 1, 2, 3],
-  [4, 5, 6, 7]
-];
 
 
 const aes = new AesCipher();
 
-// Expansion de claves
-// let key = [
-//   [0x2b, 0x28, 0xab, 0x09],
-//   [0x7e, 0xae, 0xf7, 0xcf],
-//   [0x15, 0xd2, 0x15, 0x4f],
-//   [0x16, 0xa6, 0x88, 0x3c],
-// ];
-// const subkeys = aes.getSubkeys(key).map(key => key.map(row => row.map(byte => byte.toString(16))));
-// console.log(subkeys);
-
-// Shiftrows
-// const key = [
-//   [0xd4, 0xe0, 0xb8, 0x1e],
-//   [0x27, 0xbf, 0xb4, 0x41],
-//   [0x11, 0x98, 0x5d, 0x52],
-//   [0xae, 0xf1, 0xe5, 0x30]
-// ];
-
-// const shifted = aes.ShiftRow(key).map(row => row.map(b => b.toString(16)));
-// console.log(shifted);
-
-// XOR multiply
-let key = [
-  [0x02, 0x03, 0x01, 0x01],
-  [0x01, 0x02, 0x03, 0x01],
-  [0x01, 0x01, 0x02, 0x03],
-  [0x03, 0x01, 0x01, 0x02],
-];
-
-// const mult = aes.XORmultiplyMatrixByColumn(key, [0xd4, 0xbf, 0x5d, 0x30]);
-// console.log(mult.map(b => b.toString(16)));
-
-// mixcolumn
-
-// const state  =[
-//   [0xd4, 0xe0, 0xb8, 0x1e],
-//   [0xbf, 0xb4, 0x41, 0x27],
-//   [0x5d, 0x52, 0x11, 0x98],
-//   [0x30, 0xae, 0xf1, 0xe5],
-// ];
-
-// const mixed = aes.MixColumn(state).map(row => row.map(b => b.toString(16)));
-// console.log(mixed);
-
-// Cipher
-
-// key = [
-//    0x00, 0x04, 0x08, 0x0c,
-//    0x01, 0x05, 0x09, 0x0d,
-//    0x02, 0x06, 0x0a, 0x0e,
-//    0x03, 0x07, 0x0b, 0x0f,
-// ]
-key = [
+const key = [
   0x00, 0x01, 0x02, 0x03, 
   0x04, 0x05, 0x06, 0x07,
   0x08, 0x09, 0x0a, 0x0b,   
   0x0c, 0x0d, 0x0e, 0x0f,
 ]
-// key = [
-//   0x2b, 0x28, 0xab, 0x09,
-//   0x7e, 0xae, 0xf7, 0xcf,
-//   0x15, 0xd2, 0x15, 0x4f,
-//   0x16, 0xa6, 0x88, 0x3c,
-// ];
 
 const msg = [
   0x00, 0x11, 0x22, 0x33,
@@ -333,5 +281,5 @@ const msg = [
   0xcc, 0xdd, 0xee, 0xff, 
 ]
 
-const ciphered = aes.cipher(key, msg).map(b => b.toString(16));
-console.log(aes.toMatrix(ciphered).flat(Infinity));
+// const ciphered = aes.cipher(key, msg).map(b => b.toString(16));
+// console.log(ciphered);
