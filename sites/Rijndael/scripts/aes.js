@@ -263,8 +263,6 @@ export const AesCipher = function () {
 
 };
 
-
-
 const aes = new AesCipher();
 
 const key = [
@@ -281,5 +279,5 @@ const msg = [
   0xcc, 0xdd, 0xee, 0xff, 
 ]
 
-// const ciphered = aes.cipher(key, msg).map(b => b.toString(16));
-// console.log(ciphered);
+const ciphered = aes.cipher(key, msg).map(b => b.toString(16));
+console.log(aes.log);
