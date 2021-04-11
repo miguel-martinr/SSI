@@ -84,7 +84,7 @@ Esta implementación funciona con bloques de 128 bits. Tiene como entrada el blo
 La disposición de los bytes de entrada es por columnas es decir: 
 La matriz 
 | 0 | 1 | 2 | 3 |
-|:-:|:-:|:-:|:-:|
+|---|---|---|---|
 | 4 | 5 | 6 | 7 |
 | 8 | 9 | a | b |
 | c | d | e | f |
