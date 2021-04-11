@@ -15,10 +15,126 @@
   <title>Rijndael</title>
 </head>
 <body>
+
   <div class="container mt-3">
     <div class="row">
-      <div class="col text-center"><h1>Rijndael</h1></div>
+      <div class="col text-center"><h1>Cifrado Rijndael (AES)</h1></div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <div class="mb-3">
+          <label for="Texto en claro" class="form-label border-primary">Texto en claro</label>
+          <input value="00112233445566778899aabbccddeeff" type="text" class="form-control" id="clearText" aria-describedby="Texto en claro">
+          <div class="form-text">16 bytes sin separaciones por coma o espacios.</div>
+        </div>
+      </div>
+      <div class="col text-center">
+        <div class="mb-3">
+          <label for="Clave" class="form-label border-primary">Clave</label>
+          <input value="000102030405060708090a0b0c0d0e0f" type="text" class="form-control" id="key" aria-describedby="Clave">
+          <div class="form-text">16 bytes sin separaciones por coma o espacios.</div>
+        </div>
+      </div>
+      <div class="col text-center">
+        <div class="mb-3">
+          <label for="Texto cifrado" class="form-label border-primary">Texto cifrado</label>
+          <input type="text" class="form-control" id="cipheredText" aria-describedby="Texto cifrado">
+          <div class="form-text">16 bytes sin separaciones por coma o espacios.</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <button class="btn btn-primary" onclick="cipherText()">Cifrar</button>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col text-center">
+        <table class="table">
+          <tbody id="clearText-table">
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+              <td>0x02</td>
+            </tr>
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+            </tr>
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col text-center ml-2 mr-2">
+        <table class="table">
+          <tbody id="key-table">
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+            </tr>
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+            </tr>
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col text-center">
+        <table class="table">
+          <tbody id="cipheredText-table">
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+            </tr>
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+            </tr>
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-10 offset-sm-1 text-center">
+        <textarea style="width: inherit;" name="" id="log" cols="30" rows="12"></textarea>
+      </div>
     </div>
   </div>
+
+
+
+  <!-- <form>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form> -->
+
+
 </body>
 </html>
