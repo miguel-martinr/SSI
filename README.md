@@ -82,7 +82,8 @@ Este algoritmo opera a nivel de byte, interpretando éstos como elementos de un 
 Esta implementación funciona con bloques de 128 bits. Tiene como entrada el bloque del mensaje en claro y el bloque de la clave y da como resultado el bloque cifrado así como la subclaves y estado en cada una de las iteraciones. 
 
 La disposición de los bytes de entrada es por columnas es decir: 
-La matriz 
+La matriz  
+
 | 0 | 1 | 2 | 3 |
 |---|---|---|---|
 | 4 | 5 | 6 | 7 |
