@@ -5,7 +5,7 @@
 * ### [**RC4**](./#generador-rc4)
 * ### [**Rijndael (AES)**](./#rijndael)
   
-  
+
 # [**El Cifrado de Vigenère**](sites/VigenereCipher/)
 <a href="./sites/Vigenere" target="_blank"><strong>Ir al cifrador</strong></a>
 
@@ -97,6 +97,8 @@ La matriz
 | c | d | e | f |
 
 Sería introducida como: `0004080c0105090d02060a0e03070b0f`
+
+![Demo](./media/rijndael-demo.gif)
 
 
 
