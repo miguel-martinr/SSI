@@ -1,7 +1,7 @@
 # **Seguridad en sistemas informáticos**
 
 # [**El Cifrado de Vigenère**](sites/VigenereCipher/)
-<a href="./sites/VigenereCipher" target="_blank"><strong>Ir al cifrador</strong></a>
+<a href="./sites/Vigenere" target="_blank"><strong>Ir al cifrador</strong></a>
 
 ## **Introducción**
 
