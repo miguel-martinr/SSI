@@ -1,4 +1,4 @@
-import { Aes } from './aes.js';
+import { AesCipher as Aes } from './aes.js';
 const defaultInitArray = new Array(16).fill(0);
 
 /**
