@@ -4,6 +4,7 @@
 * ### [**Vigenére**](./#el-cifrado-de-vigenère)
 * ### [**RC4**](./#generador-rc4)
 * ### [**Rijndael (AES)**](./#rijndael)
+* * ### [**Rijndael (AES) Modo CBC**](./#rijndael-modo-cbc)
   
 
 # [**El Cifrado de Vigenère**](sites/VigenereCipher/)
@@ -100,7 +101,7 @@ Sería introducida como: `0004080c0105090d02060a0e03070b0f`
 
 ![Demo](./media/rijndael-demo.gif)
 
-# [**Rijndael - Modo CBC**](sites/Rijndael-CBC/)
+# [**Rijndael Modo CBC**](sites/Rijndael-CBC/)
 <a href="./sites/Rijndael-CBC" target="_blank"><strong>Ir al cifrador</strong></a>
 ## **Introducción**
 
