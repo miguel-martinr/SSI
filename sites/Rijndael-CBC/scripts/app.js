@@ -1,59 +1,103 @@
-import { AesCipher } from './aes.js';
+import { AesCBC } from './aes_cbc.js';
+import { toMatrix , transposeMatrix } from './utilities.js';
 
-
-const aes = new AesCipher();
+const cipher = new AesCBC();
 
 function cipherText() {
-
-
   const clearText = getClearText();
   const key = getKey();
-  
-  const cipheredText = aes.cipher(key, clearText);
+  const initArray = getInitArray();
 
-  setFlatCipheredText(cipheredText);
+  cipher.initArray = initArray;
+  const cipheredText = cipher.cipher(clearText, key);
+
+  setCipheredText(cipheredText);
   setClearTextTable(clearText);
   setKeyTable(key);
   setCipheredTextTable(cipheredText);
-  setLog(aes);
+  setLog();
+}
+
+function setLog() {
+  const logArea = document.getElementById('log');
+
+  // Loggeo entrada
+  logArea.value = 'Entrada: \n'+ 
+                  `        Clave: ${cipher.log.input.key.map(b => b.toString(16).padStart(2, '0')).join(' ')}\n` +
+                  `        IV: ${cipher.log.input.iv.map(b => b.toString(16).padStart(2, '0')).join(' ')}\n`;
+  cipher.log.input.blocks.forEach((block, i) => {
+    logArea.value += `        Bloque ${i + 1} de Texto Original: ${block.map(b => b.toString(16).padStart(2, '0')).join(' ')}\n`;
+  });
+
+  // Loggeo salida
+  logArea.value += '\nSalida: \n';        
+  cipher.log.output.blocks.forEach((block, i) => {
+  logArea.value += `        Bloque ${i + 1} de Texto cifrado: ${block.map(b => b.toString(16).padStart(2, '0')).join(' ')}\n`;
+});
+}
+
+function setCipheredText(cipheredText) {
+  const cipheredPlace = document.getElementById('cipheredText');
+  cipheredPlace.value = cipheredText.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 function getClearText() {
-  const clearTextBox = document.getElementById('clearText');
-  if (clearTextBox.value.length !== 32) {
-    alert('Asegúrese de que el texto en claro sean 16 bytes!');
-    return;
-  }
-
-  const clearTextStr = clearTextBox.value.split('');
-  const clearText = [];
-
-  for (let i = 0; i < 16; i++) {
-    clearText.push(parseInt(clearTextStr.splice(0, 2).join(''), 16));
-  }
-
-  return clearText;
+  return getAndParseValue('clearText', 'el texto en claro');
 }
 
 function getKey() {
-  const keyBox = document.getElementById('key');
-  if (keyBox.value.length !== 32) {
-    alert('Asegúrese de que la clave sean 16 bytes!');
-    return;
-  }
-
-  const keyStr = keyBox.value.split('');
-  const key = [];
-
-  for (let i = 0; i < 16; i++) {
-    key.push(parseInt(keyStr.splice(0, 2).join(''), 16));
-  }
+  const key = getAndParseValue('key', 'la clave');
+  if (key.length != 16) {
+    const alertMsg = `La clave no puede tener ${key.length < 16 ? 'menos' : 'mas'} de 16 bytes! ` +
+      `${key.length > 16 ? 'Sobra' : 'Falta'}(n) ${key.length > 16 ? key.length - 16 : 16 - key.length} byte(s).`;
+    alert(alertMsg);
+    return; 
+  } 
 
   return key;
 }
 
-function setFlatCipheredText(cipheredText) {
-  document.getElementById('cipheredText').value = cipheredText.map(b => b.toString(16).padStart(2, 0)).join('');
+function getInitArray() {
+  const initArray = getAndParseValue('initArray', 'el vector de inicialización');
+  if (initArray.length != 16) {
+    const alertMsg = `El vector de inicialización no puede tener ${initArray.length < 16 ? 'menos' : 'mas'} de 16 bytes! ` +
+    `${initArray.length > 16 ? 'Sobra' : 'Falta'}(n) ${initArray.length > 16 ? initArray.length - 16 : 16 - initArray.length} byte(s).`;
+    alert(alertMsg);
+    return;
+  }
+  
+  return initArray;
+}
+
+function getAndParseValue(id, msg = 'los valores') {
+
+  const strValue =  document.getElementById(id).value.split('');
+  if (strValue.length % 2) {
+    alert(`Ha introducido un núero impar de dígitos. Asegúrese de que ${msg} son bytes de la forma XX!`);
+    return;
+  }
+
+  const parsedValue = [];
+  while (strValue.length > 0) {
+    parsedValue.push(parseInt(strValue.splice(0, 2).join(''), 16));
+  }
+  return parsedValue;
+}
+
+function setTable(id, content) {
+  const table = document.getElementById(id);
+  table.innerHTML = '';
+
+  const shapedContent = transposeMatrix(toMatrix(content, content.length / 4, 4));
+  const parsedTableContent = shapedContent.map(row => row.map(b => '0x' + b.toString(16).padStart(2, 0)));
+  let k = 0;
+  for (let i = 0; i < parsedTableContent.length; i++) {
+    const row = document.createElement('tr');
+    for (let j = 0; j < parsedTableContent[i].length; j++) {
+      row.innerHTML += `<td>${parsedTableContent[i][j]}</td>`;
+    }
+    table.appendChild(row);
+  }
 }
 
 function setClearTextTable(clearText) {
@@ -64,35 +108,11 @@ function setKeyTable(key) {
   setTable('key-table', key);
 }
 
-function setTable(id, content) {
-  const table = document.getElementById(id);
-  table.innerHTML = '';
-
-  const shapedContent = aes.transposeMatrix(aes.toMatrix(content)).flat(Infinity)
-  const parsedTableContent = shapedContent.map(b => '0x' + b.toString(16).padStart(2, 0));
-  let k = 0;
-  for (let i = 0; i < 4; i++) {
-    const row = document.createElement('tr');
-    for (let j = 0; j < 4; j++) {
-      row.innerHTML += `<td>${parsedTableContent[k++]}</td>`;
-    }
-    table.appendChild(row);
-  }
-}
-
 function setCipheredTextTable(cipheredText) {
   setTable('cipheredText-table', cipheredText);
 }
 
-function setLog(cipher) {
-  const logTextArea = document.getElementById('log');
-  logTextArea.value = '';
-  cipher.log.forEach((loggy, i) => {
-    const shapedSubkey = cipher.transposeMatrix(loggy.subkey).flat(Infinity).map(b => b.toString(16).padStart(2, 0)).join('');
-    const shapedState = cipher.transposeMatrix(loggy.state).flat(Infinity).map(b => b.toString(16).padStart(2, 0)).join('');
-    logTextArea.value += `R(${i} (Sublcave = ${shapedSubkey}) = ${shapedState}\n`;
-  })
-}
 
-window.cipher = aes;
 window.cipherText = cipherText;
+window.cipher = cipher;
+
