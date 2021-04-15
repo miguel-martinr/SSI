@@ -100,5 +100,7 @@ Sería introducida como: `0004080c0105090d02060a0e03070b0f`
 
 ![Demo](./media/rijndael-demo.gif)
 
-
+# [**Rijndael - Modo CBC**](sites/Rijndael-CBC/)
+<a href="./sites/Rijndael-CBC" target="_blank"><strong>Ir al cifrador</strong></a>
+## **Introducción**
 

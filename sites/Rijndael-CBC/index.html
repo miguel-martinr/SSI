@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="./styles/stylesheet.css">
+
+  <!-- PreScripts -->
+  <script type="module" src="./scripts/app.js"></script>
+  <title>Rijndael CBC</title>
+</head>
+<body>
+
+  <div class="containers-sm ml-3 mr-3 mt-3">
+    <div class="row title">
+      <div class="col text-center"><h1>Cifrado Rijndael (AES) - Modo CBC</h1></div>
+    </div>
+    <div class="row inputs">
+      <div class="col text-center">
+        <label for="clearText">Texto en claro</label>
+        <textarea name="clearText" id="clearText" cols="40" rows="10">00112233445566778899aabbccddeeff</textarea>
+        
+        <!-- <div class="mb-3">
+          <label for="Texto en claro" class="form-label border-primary">Texto en claro</label>
+          <input value="00112233445566778899aabbccddeeff"  type="text" class="form-control input-lg" id="clearText" aria-describedby="Texto en claro">
+          <div class="form-text">16 bytes sin separaciones por coma o espacios.</div>
+        </div> -->
+      </div>
+      <div class="col text-center">
+
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="Clave" class="form-label border-primary">Clave</label>
+              <input value="000102030405060708090a0b0c0d0e0f" type="text" class="form-control" id="key" aria-describedby="Clave">
+              <!-- <div class="form-text">16 bytes sin separaciones por coma o espacios.</div> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="Texto cifrado" class="form-label border-primary">Vector de inicialización</label>
+              <input value="00000000000000000000000000000000" type="text" class="form-control" id="initArray" aria-describedby="Texto cifrado">
+              <!-- <div class="form-text">16 bytes sin separaciones por coma o espacios.</div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col text-center">
+        <label for="cipheredText">Texto cifrado</label>
+        <textarea name="cipheredText" id="cipheredText" cols="40" rows="10"></textarea>
+        <!-- <div class="mb-3">
+          <label for="Texto cifrado" class="form-label border-primary">Texto cifrado</label>
+          <input type="text" class="form-control" id="cipheredText" aria-describedby="Texto cifrado">
+          <div class="form-text">16 bytes sin separaciones por coma o espacios.</div>
+        </div> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <button class="btn btn-primary" onclick="cipherText()">Cifrar</button>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col text-center">
+        <table class="table">
+          <tbody id="clearText-table">
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+              <td>0x03</td>
+            </tr>
+            <tr>
+              <td>0x04</td>
+              <td>0x05</td>
+              <td>0x06</td>
+              <td>0x07</td>
+            </tr>
+            <tr>
+              <td>0x08</td>
+              <td>0x09</td>
+              <td>0x0a</td>
+              <td>0x0b</td>
+            </tr>
+            <tr>
+              <td>0x0c</td>
+              <td>0x0d</td>
+              <td>0x0e</td>
+              <td>0x0f</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col text-center ml-2 mr-2">
+        <table class="table">
+          <tbody id="key-table">
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+              <td>0x03</td>
+            </tr>
+            <tr>
+              <td>0x04</td>
+              <td>0x05</td>
+              <td>0x06</td>
+              <td>0x07</td>
+            </tr>
+            <tr>
+              <td>0x08</td>
+              <td>0x09</td>
+              <td>0x0a</td>
+              <td>0x0b</td>
+            </tr>
+            <tr>
+              <td>0x0c</td>
+              <td>0x0d</td>
+              <td>0x0e</td>
+              <td>0x0f</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col text-center">
+        <table class="table">
+          <tbody id="cipheredText-table">
+            <tr>
+              <td>0x00</td>
+              <td>0x01</td>
+              <td>0x02</td>
+              <td>0x03</td>
+            </tr>
+            <tr>
+              <td>0x04</td>
+              <td>0x05</td>
+              <td>0x06</td>
+              <td>0x07</td>
+            </tr>
+            <tr>
+              <td>0x08</td>
+              <td>0x09</td>
+              <td>0x0a</td>
+              <td>0x0b</td>
+            </tr>
+            <tr>
+              <td>0x0c</td>
+              <td>0x0d</td>
+              <td>0x0e</td>
+              <td>0x0f</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-10 offset-sm-1 text-center">
+        <textarea style="width: inherit;" name="" id="log" cols="30" rows="12"></textarea>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
