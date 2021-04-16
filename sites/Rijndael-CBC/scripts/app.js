@@ -1,5 +1,6 @@
 import { AesCBC } from './aes_cbc.js';
 import { toMatrix , transposeMatrix } from './utilities.js';
+import { xorArrays } from './utilities.js';
 
 const cipher = new AesCBC();
 
@@ -115,4 +116,6 @@ function setCipheredTextTable(cipheredText) {
 
 window.cipherText = cipherText;
 window.cipher = cipher;
+window.xorArrays = xorArrays;
+
 

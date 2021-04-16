@@ -69,9 +69,9 @@ export const AesCBC = function(initArray = defaultInitArray) {
     const cipheredBlocks = [];
 
     // Resultado de hacer XOR entre el VI y el texto en claro
-    const xorResult = xorArrays(initArray, plainClearText);
+    const xorResult = xorArrays(this.initArray, clearTextBlocks[0]);
     // Introducimos el primer bloque cifrado
-    cipheredBlocks.push(this.aes.cipher(plainKey, clearTextBlocks[0]));
+    cipheredBlocks.push(this.aes.cipher(plainKey, xorResult));
     
     let cipheredBlock = [];
     // Ciframos todos los bloques
@@ -125,5 +125,3 @@ const msg = [
 
 // const transposed = transposeMatrix(matrix);
 // console.log('TRANSPOSED:', transposed.map(row => row.map(b => b.toString(16))));
-
-
