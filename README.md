@@ -105,3 +105,25 @@ Sería introducida como: `0004080c0105090d02060a0e03070b0f`
 <a href="./sites/Rijndael-CBC" target="_blank"><strong>Ir al cifrador</strong></a>
 ## **Introducción**
 
+En el modo CBC, cada bloque de texto en claro se combina antes de cifrarse mediante un XOR con el
+bloque previo de texto cifrado. De esta forma, cada bloque de texto cifrado depende de todos los bloques
+de texto en claro anteriores
+
+## **Implementación**
+Esta implementación hace uso de la práctica anterior (Rijndael) adaptando la entrada al cifrador para que se corresponda con el mecanismo del modo CBC:
+![CBC](./media/cbcCipherScheme.jpg)
+
+![CBC Demo](./media/cbcDemo1.gif)
+
+### **Cipher Stealing**
+Cipher stealing es una técnica que se suele usar cuando la longitud del mensaje no es múltiplo
+de la longitud del bloque. Consiste en modificar el procesamiento de los dos últimos bloques de forma que
+un trozo del penúltimo bloque cifrado se usa para completar el último bloque de texto antes de cifrarlo. El
+texto cifrado final, para los últimos dos bloques, consiste en el bloque final cifrado, más el penúltimo
+bloque parcial (con la porción "robada" omitida).
+
+![Cipher Stealing](media/cipherStealing.jpg)
+
+Para implementarlo compruebo que en cada fase de cifrado el bloque de texto en claro esté completo (16 bytes), en caso de no estarlo lo relleno con ceros por la derecha, luego el resultado de aplicar XOR a ese bloque y el (hasta ese momento último bloque cifrado) sustituye las posiciones correspondientes a ceros en el bloque de texto en claro tomando los valores del último bloque cifrado, por último, el resultado de cifrar este bloque es el nuevo penúltimo bloque cifrado y el último serán los valores del antiguo último bloque cifrado que no fueron tomadas como relleno.
+
+![Cipher stealing demo](media/cipherStealingDemo.gif)
