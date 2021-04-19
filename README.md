@@ -109,6 +109,17 @@ En el modo CBC, cada bloque de texto en claro se combina antes de cifrarse media
 bloque previo de texto cifrado. De esta forma, cada bloque de texto cifrado depende de todos los bloques
 de texto en claro anteriores
 
+## **Instrucciones**
+Para utilizar el programa desde una máquina local utilice un servidor web como por ejemplo [Live Server en VScode](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer): 
+
+![Run demo](media/run-demo.gif)
+
+Una vez dentro de la aplicación introduzca los bloques de texto a cifrar. Serán bloques de bytes , múltiplos o no de 16 bytes, de la forma XY, por lo que todo bloque tendrá que ser de longitud par (cada byte está conformado por dos caracteres). 
+
+Al presionar **cifrar** podrá ver como se crean tres matrices: texto en claro, clave y texto cifrado, además el texto cifrado se mostrará también en el recuadro de la derecha.
+
+En el recuadro del fondo de la página podrá observar los pasos seguidos, así como las entradas y salidas del programa.
+
 ## **Implementación**
 Esta implementación hace uso de la práctica anterior (Rijndael) adaptando la entrada al cifrador para que se corresponda con el mecanismo del modo CBC:
 ![CBC](./media/cbcCipherScheme.jpg)
