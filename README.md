@@ -5,6 +5,7 @@
 * ### [**RC4**](./#generador-rc4)
 * ### [**Rijndael (AES)**](./#rijndael)
 * * ### [**Rijndael (AES) Modo CBC**](./#rijndael-modo-cbc)
+* ### [**ElGamal**](./#elgamal-1)
   
 
 # [**El Cifrado de Vigenère**](sites/VigenereCipher/)
@@ -138,3 +139,8 @@ bloque parcial (con la porción "robada" omitida).
 Para implementarlo compruebo que en cada fase de cifrado el bloque de texto en claro esté completo (16 bytes), en caso de no estarlo lo relleno con ceros por la derecha, luego el resultado de aplicar XOR a ese bloque y el (hasta ese momento último bloque cifrado) sustituye las posiciones correspondientes a ceros en el bloque de texto en claro tomando los valores del último bloque cifrado, por último, el resultado de cifrar este bloque es el nuevo penúltimo bloque cifrado y el último serán los valores del antiguo último bloque cifrado que no fueron tomadas como relleno.
 
 ![Cipher stealing demo](media/cipherStealingDemo.gif)
+
+
+# [**ElGamal**](sites/ElGamal/)
+<a href="./sites/ELGamal" target="_blank"><strong>Ir al cifrador</strong></a>
+
