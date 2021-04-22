@@ -1,78 +1,119 @@
+import { ExtendedEuclidean } from './extended_euclidean.js';
 // Distintas funciones de utilidad
 
 
+
 /**
- * Recibe un vector plano y devuelve una matriz de las dimensiones especificadas con los elementos de dicho vector
- * @param {[]} arr Vector de elementos primitivos
- * @param {*} numOfRows Número de filas
- * @param {*} numOfCols Número de columnas
- * @returns Matriz de dimensiones numOfRows x numOfcols con los elementos de arr
+ * Calcula la inversa de un número b módulo un número a, tal que a > b, 
+ * empleando el algorimto de Euclides extendido
+ * @param {*} b 
  */
-export const toMatrix = function(arr, numOfRows, numOfCols) {
-  let result = [];
-  let k = 0;
-  for (let i = 0; i < numOfRows; i++) {
-    result.push([]);
-    for (let j = 0; j < numOfCols && k < arr.length; j++) {
-      result[i].push(arr[k++]);
+export const InverseOf = function(b) {
+  this.module = function(a) {
+    const result = ExtendedEuclidean(a, b).inverse;
+    return result < 0 ? a + result : result;
+  }
+}
+
+// console.log(new InverseOf(12).module(19));
+
+/**
+ * Exponenciación rápida
+ * @param {number} a Base
+ * @param {number} b Exponente
+ * @param {number} m Módulo
+ */
+export const FastModularExponentiation = function(a, b, m) {
+  let x = 1;
+  let y = a % m;
+
+  while (b > 0 && y > 1) {
+    if (b % 2 !== 0) {
+      x = (x * y) % m;
+      b--;
+    } else {
+      y = (y * y) % m;
+      b = b / 2;
     }
   }
-  return result;
+
+  return x;
 }
 
-/**
- * Recibe dos vectores numéricos de la misma longitud y devuelve el resultado de aplicar XOR entre los dos elemento a elemento.
- * @param {number[]} array1 
- * @param {number[]} array2 
- * @returns 
- */
-export const xorArrays = function(array1, array2) {
-  return array1.map((num, i) => num ^ array2[i]);
-}
+// console.log(FastModularExponentiation(2, 28, 79)); --> 13
 
-export const orArrays = function(array1, array2) {
-  return array1.map((num, i) => num | array2[i]);
-}
 
-/**
- * Recibe una matriz dimensional y devuelve su traspuesta
- * @param  matrix 
- * @returns 
- */
-export const transposeMatrix = function (matrix) {
-  let transposedMatrix = matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
-  return transposedMatrix.map(row => row.filter(b => b !== undefined));
-}
 
-/**
- * Divide un array en fragmentos de tamaño itemsLength. Si el número de elementos no es múltiplo de itemsLength
- * el último elemento es de tamaño menor.
- * @param  array_ 
- * @param  itemsLength 
- * @returns Nuevo objeto con los arrays resultantes de la división 
- */
-export const splitArray = function(array_, itemsLength)  {
-  const array = [...array_];
-  const result = [];
-  let times = array.length / itemsLength;
+
+// /**
+//  * Recibe un vector plano y devuelve una matriz de las dimensiones especificadas con los elementos de dicho vector
+//  * @param {[]} arr Vector de elementos primitivos
+//  * @param {*} numOfRows Número de filas
+//  * @param {*} numOfCols Número de columnas
+//  * @returns Matriz de dimensiones numOfRows x numOfcols con los elementos de arr
+//  */
+// export const toMatrix = function(arr, numOfRows, numOfCols) {
+//   let result = [];
+//   let k = 0;
+//   for (let i = 0; i < numOfRows; i++) {
+//     result.push([]);
+//     for (let j = 0; j < numOfCols && k < arr.length; j++) {
+//       result[i].push(arr[k++]);
+//     }
+//   }
+//   return result;
+// }
+
+// /**
+//  * Recibe dos vectores numéricos de la misma longitud y devuelve el resultado de aplicar XOR entre los dos elemento a elemento.
+//  * @param {number[]} array1 
+//  * @param {number[]} array2 
+//  * @returns 
+//  */
+// export const xorArrays = function(array1, array2) {
+//   return array1.map((num, i) => num ^ array2[i]);
+// }
+
+// export const orArrays = function(array1, array2) {
+//   return array1.map((num, i) => num | array2[i]);
+// }
+
+// /**
+//  * Recibe una matriz dimensional y devuelve su traspuesta
+//  * @param  matrix 
+//  * @returns 
+//  */
+// export const transposeMatrix = function (matrix) {
+//   let transposedMatrix = matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
+//   return transposedMatrix.map(row => row.filter(b => b !== undefined));
+// }
+
+// /**
+//  * Divide un array en fragmentos de tamaño itemsLength. Si el número de elementos no es múltiplo de itemsLength
+//  * el último elemento es de tamaño menor.
+//  * @param  array_ 
+//  * @param  itemsLength 
+//  * @returns Nuevo objeto con los arrays resultantes de la división 
+//  */
+// export const splitArray = function(array_, itemsLength)  {
+//   const array = [...array_];
+//   const result = [];
+//   let times = array.length / itemsLength;
   
-  for (let i = 0; i < times; i++) {
-    result.push(array.splice(0, itemsLength));
-  }
-  return result;
-}
+//   for (let i = 0; i < times; i++) {
+//     result.push(array.splice(0, itemsLength));
+//   }
+//   return result;
+// }
 
-/**
- * Recibe un array y lo rellena por la derecha con elemtnos de valor value hasta tener un tamaño de length.
- * Retorna un nuevo objeto (no modifica el que se pasa por parámetro)
- */
-export const fillWith = function(arr, value, length) {
-  const result = [...arr];
-  while (result.length < length) {
-    result.push(value);
-  }
-  return result;
-}
-
-
-
+// /**
+//  * Recibe un array y lo rellena por la derecha con elemtnos de valor value hasta tener un tamaño de length.
+//  * Retorna un nuevo objeto (no modifica el que se pasa por parámetro)
+//  */
+// export const fillWith = function(arr, value, length) {
+//   const result = [...arr];
+//   while (result.length < length) {
+//     result.push(value);
+//   }
+//   return result;
+// }

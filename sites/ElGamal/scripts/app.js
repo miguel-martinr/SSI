@@ -1,121 +1,99 @@
-import { AesCBC } from './aes_cbc.js';
-import { toMatrix , transposeMatrix } from './utilities.js';
-import { xorArrays } from './utilities.js';
+import { ElGamal } from "./elgamal.js";
 
-const cipher = new AesCBC();
+const elgamal = new ElGamal();
+const glosary = {
+  'msg': 'Mensaje',
+  'secretK': 'Número secreto K de Bob',
+  'secretX': 'Número secreto X de Alice',
+  'primitiveRoot': 'Número entero a',
+  'primeP': 'Número primo p',
+  'sharedKeyA': 'Clave compartida (campo de Bob)',
+  'sharedKeyB': 'Clave compartida (campo de Alice)',
+}
+function main() {
+  const result = elgamal.run(getPrimeP(), getPrimitiveRootA(), 
+    getSecretK(), getSecretX(), getMsg());
 
-function cipherText() {
-  const clearText = getClearText();
-  const key = getKey();
-  const initArray = getInitArray();
-
-  cipher.initArray = initArray;
-  const cipheredText = cipher.cipher(clearText, key);
-
-  setCipheredText(cipheredText);
-  setClearTextTable(clearText);
-  setKeyTable(key);
-  setCipheredTextTable(cipheredText);
+  setSharedKeyA(result.A.sharedKey);
+  setSharedKeyB(result.B.sharedKey);
+  setEncryptedMsg(result.A.encryptedMsg);
+  setPublicTosendA(result.A.publicToSend);
+  setPublicTosendB(result.B.publicToSend);
+  setDecryptedMsg(result.B.decryptedMsg);
   setLog();
 }
 
+// Getters
+function getMsg() {
+  return getValue('msg');
+}
+
+function getSecretK() {
+  return getValue('secretK');
+}
+
+function getPrimitiveRootA() {
+  return getValue('primitiveRoot');
+}
+
+function getPrimeP() {
+  return getValue('primeP');
+}
+
+function getSecretX() {
+  return getValue('secretX');
+}
+
+function getValue(id) {
+  const result = document.getElementById(id).value;
+  if (result) return parseInt(result);
+  alert(`Eror al obtener el valor ->${glosary[id]}<-`);
+}
+
+// Setters
+function setSharedKeyA(sharedKey) {
+  setValue('sharedKeyA', sharedKey);
+}
+
+function setSharedKeyB(sharedKey) {
+  setValue('sharedKeyB', sharedKey);
+}
+
+function setEncryptedMsg(encryptedMsg) {
+  setValue('encryptedMsg', encryptedMsg);
+}
+
+function setPublicTosendA(publicToSendA) {
+  setValue('publicToSendA', publicToSendA);
+}
+
+function setPublicTosendB(publicToSendB) {
+  setValue('publicToSendB', publicToSendB);
+}
+
+function setValue(id, value) {
+  const result = document.getElementById(id).value = value;
+  if (result) return result;
+  alert(`Eror al obtener el valor ->${glosary[id]}<-`);
+}
+
+function setDecryptedMsg(decryptedMsg) {
+  setValue('decryptedMsg', decryptedMsg);
+}
+
 function setLog() {
-  const logArea = document.getElementById('log');
-
-  // Loggeo entrada
-  logArea.value = 'Entrada: \n'+ 
-                  `        Clave: ${cipher.log.input.key.map(b => b.toString(16).padStart(2, '0')).join(' ')}\n` +
-                  `        IV: ${cipher.log.input.iv.map(b => b.toString(16).padStart(2, '0')).join(' ')}\n`;
-  cipher.log.input.blocks.forEach((block, i) => {
-    logArea.value += `        Bloque ${i + 1} de Texto Original: ${block.map(b => b.toString(16).padStart(2, '0')).join(' ')}\n`;
-  });
-
-  // Loggeo salida
-  logArea.value += '\nSalida: \n';        
-  cipher.log.output.blocks.forEach((block, i) => {
-  logArea.value += `        Bloque ${i + 1} de Texto cifrado: ${block.map(b => b.toString(16).padStart(2, '0')).join(' ')}\n`;
-});
-}
-
-function setCipheredText(cipheredText) {
-  const cipheredPlace = document.getElementById('cipheredText');
-  cipheredPlace.value = cipheredText.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-function getClearText() {
-  return getAndParseValue('clearText', 'el texto en claro');
-}
-
-function getKey() {
-  const key = getAndParseValue('key', 'la clave');
-  if (key.length != 16) {
-    const alertMsg = `La clave no puede tener ${key.length < 16 ? 'menos' : 'mas'} de 16 bytes! ` +
-      `${key.length > 16 ? 'Sobra' : 'Falta'}(n) ${key.length > 16 ? key.length - 16 : 16 - key.length} byte(s).`;
-    alert(alertMsg);
-    return; 
-  } 
-
-  return key;
-}
-
-function getInitArray() {
-  const initArray = getAndParseValue('initArray', 'el vector de inicialización');
-  if (initArray.length != 16) {
-    const alertMsg = `El vector de inicialización no puede tener ${initArray.length < 16 ? 'menos' : 'mas'} de 16 bytes! ` +
-    `${initArray.length > 16 ? 'Sobra' : 'Falta'}(n) ${initArray.length > 16 ? initArray.length - 16 : 16 - initArray.length} byte(s).`;
-    alert(alertMsg);
-    return;
-  }
-  
-  return initArray;
-}
-
-function getAndParseValue(id, msg = 'los valores') {
-
-  const strValue =  document.getElementById(id).value.split('');
-  if (strValue.length % 2) {
-    alert(`Ha introducido un núero impar de dígitos. Asegúrese de que ${msg} son bytes de la forma XX!`);
-    return;
-  }
-
-  const parsedValue = [];
-  while (strValue.length > 0) {
-    parsedValue.push(parseInt(strValue.splice(0, 2).join(''), 16));
-  }
-  return parsedValue;
-}
-
-function setTable(id, content) {
-  const table = document.getElementById(id);
-  table.innerHTML = '';
-
-  const shapedContent = transposeMatrix(toMatrix(content, content.length / 4, 4));
-  const parsedTableContent = shapedContent.map(row => row.map(b => '0x' + b.toString(16).padStart(2, 0)));
-  let k = 0;
-  for (let i = 0; i < parsedTableContent.length; i++) {
-    const row = document.createElement('tr');
-    for (let j = 0; j < parsedTableContent[i].length; j++) {
-      row.innerHTML += `<td>${parsedTableContent[i][j]}</td>`;
-    }
-    table.appendChild(row);
-  }
-}
-
-function setClearTextTable(clearText) {
-  setTable('clearText-table', clearText);
-}
-
-function setKeyTable(key) {
-  setTable('key-table', key);
-}
-
-function setCipheredTextTable(cipheredText) {
-  setTable('cipheredText-table', cipheredText);
+  const logBox = document.getElementById('log');
+  const input = elgamal.log.input;
+  const output = elgamal.log.output;
+  logBox.value = ` Entrada: p = ${input.primeP}, a = ${input.intA}, k = ${input.secretK}, x = ${input.secretX}, msg = ${input.msg}\n`;
+  logBox.value += ` Saldia: Ya = ${output.A.publicToSend}, Yb = ${output.B.publicToSend}, K = ${output.A.sharedKey}, C = ${output.A.encryptedMsg}, K^-1 = ${output.B.sharedKeyInverse}, M = ${output.B.decryptedMsg}\n`;
 }
 
 
-window.cipherText = cipherText;
-window.cipher = cipher;
-window.xorArrays = xorArrays;
 
+
+
+window.main = main;
+
+window.elgamal = elgamal;
 
