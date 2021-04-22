@@ -166,4 +166,4 @@ El procedimiento de cifrado/descifrado ElGamal se refiere a un esquema de cifrad
   
 Indique los valores de entrada **Raíz primitiva a**, **Número primo p**, **Número primo p**, **k** y **x**. Luego presione **Encriptar** :
 
-![Demo](./media/gui-demo.gif)
+![Demo](./sites/ElGamal/media/gui-demo.gif)
