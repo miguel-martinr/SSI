@@ -145,3 +145,25 @@ Para implementarlo compruebo que en cada fase de cifrado el bloque de texto en c
 <a href="./sites/ElGamal" target="_blank"><strong>Ir al cifrador</strong></a>
 
   
+## **Introducción**
+El procedimiento de cifrado/descifrado ElGamal se refiere a un esquema de cifrado basado en el problema matemático del logaritmo discreto. Es un algoritmo de criptografía asimétrica basado en la idea de Diffie-Hellman y que funciona de una forma parecida a este algoritmo discreto.
+
+## **Instrucciones**
+* En la columna del centro se encuentran los datos publicos: 
+  * **Raíz primitiva a**
+  * **Número primo p**
+  * **yA**: Valor público enviado por A
+  * **yB**: Valor público enviado por B
+* En la columna de la izquierda se encuentran los datos conocidos por el emisor:
+  * c
+  * **k**: Número privado aleatorio elegido por el emisor
+  * **K**: Clave compartida con el receptor
+  * **Mensaje encriptado**
+* En la columna de la izquierda se encuentran los datos conocidos por el receptor:
+  * **x**: Número privado aleatorio elegido por el receptor.
+  * **K**: Clave compartida con el emisor
+  * **Msg desencriptado**: mensaje descifrado 
+  
+Indique los valores de entrada **Raíz primitiva a**, **Número primo p**, **Número primo p**, **k** y **x**. Luego presione **Encriptar** :
+
+![Demo](./media/gui-demo.gif)
