@@ -155,7 +155,6 @@ El procedimiento de cifrado/descifrado ElGamal se refiere a un esquema de cifrad
   * **yA**: Valor público enviado por A
   * **yB**: Valor público enviado por B
 * En la columna de la izquierda se encuentran los datos conocidos por el emisor:
-  * c
   * **k**: Número privado aleatorio elegido por el emisor
   * **K**: Clave compartida con el receptor
   * **Mensaje encriptado**
