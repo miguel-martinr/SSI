@@ -9,21 +9,17 @@ export const ExtendedEuclidean = function(a, b) {
     x.push(remainder);
     
     let temp = ((- x[i-1] / x[i]) | 0) * z[i-1] + z[i-2];
-    // temp = temp < 0 ? a - temp : temp;
-    // console.log(`Temp: ${temp}`)
+    
+    // Se maneja el caso de que el resultado seanegativo
+    while (temp < 0) {
+      temp += a;
+    }
+    
     z.push(temp % a);
 
     i++;
     remainder = x[i-1] % x[i];
   }
-
-  // if (x[i] === 1) {
-  //   console.log(`Inversa: ${z[i-1]}`);
-  //   console.log('X', x);
-  //   console.log('Z', z);
-  // } else {
-  //   console.log(`QUe hago miniño`);
-  // }´
 
   return {
     get mcd() {

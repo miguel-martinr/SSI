@@ -1,4 +1,4 @@
 {
   "extensions": ["js"],
-  "spec": "./**/*.spec.js"
+  "spec": "test.spec.js"
 }
