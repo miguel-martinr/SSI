@@ -3,3 +3,12 @@ textarea {
   -moz-border-radius: 5px;
   border-radius: 10px;
 }
+
+.padding {
+  height: 200px;
+  margin-top: 20px;
+}
+
+.desencryption {
+  margin-top: 125px;
+}
