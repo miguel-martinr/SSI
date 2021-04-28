@@ -49,13 +49,14 @@ export const fastModularExponentiation = function(a, b, m) {
 export const lehmanPeraltaTest = function(p) {
   const smallPrimes = [2, 3, 5, 7, 11];
   
-  // Comprobar que p no es divisible por ningún primo pequeño
-  // for (let i = 0; i < smallPrimes.length; i++) {
-  //   if (p % smallPrimes[i] === 0) return false;
-  // }
+  if (smallPrimes.includes(p)) return true;
 
-  const numOfRandomInts = (p < 101 ? p-2 : 100);
+  for (let i = 0; i < smallPrimes.length; i++) {
+    if (p % smallPrimes[i] === 0) return false;
+  }
 
+  const numOfRandomInts = (p < 101 ? p-2 : 100); // Con 100 o todos los números de 2 a p-1 si p < 100
+  // const numOfRandomInts = (p / 2) | 0; // Con la mitad de p
   let randomInts = new Set();
   
   let i = 2;
