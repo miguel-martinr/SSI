@@ -1,0 +1,27 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "google"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "rules": {
+      "require-jsdoc": "off",
+      "valid-jsdoc": "off",
+      "linebreak-style": "off",
+      "no-trailing-spaces": "off",
+      "max-len": "off",
+      "guard-for-in": "off",
+      "padded-blocks": "off",
+      "camelcase": "off",
+      "object-curly-spacing": "off",
+      "quotes": "off",
+      "comma-dangle":"off",
+      "no-unused-vars": "off"
+    }
+}

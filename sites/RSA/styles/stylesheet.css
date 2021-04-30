@@ -12,3 +12,11 @@ textarea {
 .desencryption {
   margin-top: 125px;
 }
+
+div {
+  margin-top: 20px;
+}
+.params {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bolder;
+}

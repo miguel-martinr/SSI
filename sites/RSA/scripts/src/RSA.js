@@ -1,14 +1,28 @@
-import { InverseOf as InverseOf, fastModularExponentiation, lehmanPeraltaTest } from './utilities.js';
+import { InverseOf, fastModularExponentiation, lehmanPeraltaTest } from './utilities.js';
 
 const alphabet = {
   'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12,
   'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19, 'U': 20, 'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25,
 };
 
-export const RSA = function(base = 16, alph = alphabet) {
+export const RSA = function(base = 26, alph = alphabet) {
+  // Logging
+  this.log = [];
 
+  // Base en la que está el mensaje
   this.base = base;
+
+  // Alfabeto
   this.alph = alphabet;
+
+  // eslint-disable-next-line no-extend-native
+  String.prototype.complete = (length, char) => {
+    while (this.length < length) {
+      this.concat(char);
+    }
+  };
+
+
   /**
    * Calcula el tamaño de los bloques
    * @param {number} base base en la que se quiere codificar el mensaje
@@ -21,6 +35,7 @@ export const RSA = function(base = 16, alph = alphabet) {
   /**
    * Devuelve el bloque codificado
    * @param {string} block 
+   * @returns {number} Bloque codificado
    */
   this.encodeBlock = function(block) {
 
@@ -35,7 +50,11 @@ export const RSA = function(base = 16, alph = alphabet) {
     return codifiedChars.reduce((total, cur) => total + cur);
   };
 
-
+  /**
+  * Devuelve el bloque decodificado
+  * @param {number} block 
+  * @returns {string} bloque decodificado
+  */
   this.decodeBlock = function(block) {
     const alphKeys = Object.keys(this.alph);
     return block.toString(26).split('').map((c) => alphKeys[parseInt(c, alphKeys.length)]).join('');
@@ -92,6 +111,14 @@ export const RSA = function(base = 16, alph = alphabet) {
    * @returns 
    */
   this.cipher = function(clearText, p, q, d) {
+    // Logging
+    this.log = {
+      inParams: { p: p, q: q, d: d },
+      outParams: undefined,
+      splittedBlocks: undefined,
+      encodedBlocks: undefined,
+      cipheredBlocks: undefined,
+    };
 
     // Verificar que p y q son números primos con el test de primalidad de Lehman y Peralta
     if (!lehmanPeraltaTest(p)) {
@@ -109,28 +136,35 @@ export const RSA = function(base = 16, alph = alphabet) {
     const e = new InverseOf(d).module(fiN);
 
     const blockSize = this.getBlockSize(this.base, n);
-    const encodedMsg = this.splitMessage(msg, blockSize).map((block) => this.encodeBlock(block));
 
-    const cipheredMsg = encodedMsg.map((block) => this.cipherBlock(block, e, n));
-    const decipheredMsg = cipheredMsg.map((block) => this.decipherBlock(block, d, n));
+    const splittedBlocks = this.splitMessage(clearText, blockSize).map((block) => block.padEnd(blockSize, 'X'));
+    const encodedBlocks = splittedBlocks.map((block) => this.encodeBlock(block));
+    const cipheredBlocks = encodedBlocks.map((block) => this.cipherBlock(block, e, n));
+    const decipheredMsg = cipheredBlocks.map((block) => this.decipherBlock(block, d, n));
+
     const decodedMsg = decipheredMsg.map((block) => this.decodeBlock(block)).join('');
+
+    // Logging
+    this.log.outParams = { n: n, fiN: fiN, e: e };
+    this.log.splittedBlocks = splittedBlocks;
+    this.log.encodedBlocks = encodedBlocks;
+    this.log.cipheredBlocks = cipheredBlocks;
 
     console.log(`Se comprueba que p y q son primos \n` +
       `Se comprueba que d es primo con fi(n) = ${fiN}\n` +
       `Se calcula e = ${e}\n` +
       `Como n = ${n}, se divide el texto en bloques de ${blockSize} caracteres\n` +
-      `Se pasa cada bloque a decimal para poder cifrar, obteniendo ${encodedMsg.join(', ')}\n` +
-      `Se calcula en decimal el texto cifrado: ${cipheredMsg}\n` +
+      `Se pasa cada bloque a decimal para poder cifrar, obteniendo ${encodedBlocks.join(', ')}\n` +
+      `Se calcula en decimal el texto cifrado: ${cipheredBlocks}\n` +
       `Descifrado: ${decipheredMsg}\n` +
       `Completo: ${decodedMsg}`);
 
   };
-  
+
 
 };
 
-const rsa = new RSA();
 
-const msg = 'AMIGO MIO';
-rsa.cipher(msg, 2347, 347, 5);
+// rsa.cipher(msg, 2347, 347, 5);
+
 

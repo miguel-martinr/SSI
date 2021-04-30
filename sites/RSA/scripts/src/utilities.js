@@ -38,7 +38,7 @@ export const fastModularExponentiation = function(a, b, m) {
   return x;
 };
 
-// console.log(FastModularExponentiation(2, 28, 79)); --> 13
+// console.log(fastModularExponentiation(0, 179, 2947));
 
 
 /**
