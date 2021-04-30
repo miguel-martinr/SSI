@@ -15,14 +15,6 @@ export const RSA = function(base = 26, alph = alphabet) {
   // Alfabeto
   this.alph = alphabet;
 
-  // eslint-disable-next-line no-extend-native
-  String.prototype.complete = (length, char) => {
-    while (this.length < length) {
-      this.concat(char);
-    }
-  };
-
-
   /**
    * Calcula el tamaño de los bloques
    * @param {number} base base en la que se quiere codificar el mensaje
@@ -145,26 +137,24 @@ export const RSA = function(base = 26, alph = alphabet) {
     const decodedMsg = decipheredMsg.map((block) => this.decodeBlock(block)).join('');
 
     // Logging
-    this.log.outParams = { n: n, fiN: fiN, e: e };
+    this.log.outParams = { fiN: fiN, e: e, n: n };
     this.log.splittedBlocks = splittedBlocks;
     this.log.encodedBlocks = encodedBlocks;
     this.log.cipheredBlocks = cipheredBlocks;
 
-    console.log(`Se comprueba que p y q son primos \n` +
-      `Se comprueba que d es primo con fi(n) = ${fiN}\n` +
-      `Se calcula e = ${e}\n` +
-      `Como n = ${n}, se divide el texto en bloques de ${blockSize} caracteres\n` +
-      `Se pasa cada bloque a decimal para poder cifrar, obteniendo ${encodedBlocks.join(', ')}\n` +
-      `Se calcula en decimal el texto cifrado: ${cipheredBlocks}\n` +
-      `Descifrado: ${decipheredMsg}\n` +
-      `Completo: ${decodedMsg}`);
+    //   console.log(`Se comprueba que p y q son primos \n` +
+    //     `Se comprueba que d es primo con fi(n) = ${fiN}\n` +
+    //     `Se calcula e = ${e}\n` +
+    //     `Como n = ${n}, se divide el texto en bloques de ${blockSize} caracteres\n` +
+    //     `Se pasa cada bloque a decimal para poder cifrar, obteniendo ${encodedBlocks.join(', ')}\n` +
+    //     `Se calcula en decimal el texto cifrado: ${cipheredBlocks}\n` +
+    //     `Descifrado: ${decipheredMsg}\n` +
+    //     `Completo: ${decodedMsg}`);
+
+    // };
+
 
   };
-
-
 };
 
-
 // rsa.cipher(msg, 2347, 347, 5);
-
-

@@ -6,6 +6,7 @@
 * ### [**Rijndael (AES)**](./#rijndael)
 * * ### [**Rijndael (AES) Modo CBC**](./#rijndael-modo-cbc)
 * ### [**ElGamal**](./#elgamal-1)
+* ### [**rsa**](./#rsa-1)
   
 
 # [**El Cifrado de Vigenère**](sites/VigenereCipher/)
@@ -166,3 +167,36 @@ El procedimiento de cifrado/descifrado ElGamal se refiere a un esquema de cifrad
 Indique los valores de entrada **Raíz primitiva a**, **Número primo p**, **Número primo p**, **k** y **x**. Luego presione **Encriptar** :
 
 ![Demo](./sites/ElGamal/media/gui-demo.gif)
+
+# [**RSA**](sites/RSA/)
+<a href="./sites/RSA/" target="_blank"><strong>Ir al cifrador</strong></a>
+
+  
+## **Introducción**
+* RSA es el algoritmo de cifrado más usado del mundo: en navegación segura https, en DNIe...
+* La seguridad de este algoritmo radica en el problema de la factorización de números enteros.
+* Los mensajes enviados se representan mediante números, y el funcionamiento se basa en el producto, conocido,  de dos números primos grandes secretos.
+* Ahora los primos que se usan son del orden de 10300
+* Se cree que RSA será seguro mientras no se pueda descomponer nº grandes en productos de primos.
+* La computación cuántica podría usarse para resolver este problema de factorización.
+
+## **Instrucciones**
+
+* Esta implementación trabaja con un alfabeto de 26 caracteres [A-Z]: 
+* Indique los parámetros de entrada: 
+  * **p**: Número primo
+  * **q**: Número primo
+  * **d**: Entero primo con Φ(n)
+* Escriba el texto a cifrar. Por defecto, el texto introducido se transformará a mayúsculas y se eliminarán los espacios en blancos y cualquier otro caracter que no pertenezca al alfabeto.
+* Presione **`Cifrar`**
+
+
+### **Salida**
+* Parámetros de salida (información pública):
+  * **Φ(n)**: (p-1) * (q-1)
+  * **n**: p * q
+  * **e**: inverso de **`d`** módulo **`Φ(n)`**
+
+Además será visible también el texto dividido en bloques (cad auno con una longitud de  )
+
+![Demo](./sites/RSA/media/gui-demo.gif)
