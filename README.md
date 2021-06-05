@@ -11,7 +11,7 @@
 * ### [**Coarse Acquistion Cipher**](./#coarse-acquisition-cipher)
   
 
-# [**El Cifrado de Vigenère**](sites/VigenereCipher/)
+# [**El Cifrado de Vigenère**](sites/Vigenere/)
 <a href="./sites/Vigenere" target="_blank"><strong>Ir al cifrador</strong></a>
 
 ## **Introducción**
