@@ -204,7 +204,7 @@ Además será visible también el texto dividido en bloques (cad auno con una lo
 
 
 # [**ChaCha20**](sites/ChaCha20/)
-<a href="./sites/Chacha20/" target="_blank"><strong>Ir al cifrador</strong></a>
+<a href="./sites/ChaCha20/" target="_blank"><strong>Ir al cifrador</strong></a>
 
 ## **Introducción**
 El cifrado ChaCha20 es un cifrado en flujo desarrollado en el 2008 por Daniel Bernstein a partir del cifrado Salsa20.
