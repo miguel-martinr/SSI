@@ -1,0 +1,4 @@
+{
+  "extensions": ["js"],
+  "spec": "./site/scripts/**/*.spec.js"
+}

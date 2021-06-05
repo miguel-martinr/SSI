@@ -48,3 +48,4 @@ const setValue = (id, value) => {
 
 
 window.run = run;
+window.rsa = rsa;

@@ -1,0 +1,26 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  color: white;
+  background-color: #1a5199;
+}
+
+.row.input {
+  margin-top: 10px;
+  /* margin-bottom: 10px; */
+}
+
+.col-10 {
+  margin-top: 7px;
+}
+
+input, textarea {
+  border-radius: 5px;
+}
+
+button {
+  margin-top: 50px;
+}

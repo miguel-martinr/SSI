@@ -25,16 +25,15 @@ export const fastModularExponentiation = function(a, b, m) {
   let x = 1;
   let y = a % m;
 
-  while (b > 0 && y > 1) {
-    if (b % 2 !== 0) {
-      x = (x * y) % m;
-      b--;
-    } else {
+  while (b > 0) {
+    if (b % 2 == 0) {
       y = (y * y) % m;
       b = b / 2;
+    } else {
+      x = (x * y) % m;
+      b--;
     }
   }
-
   return x;
 };
 

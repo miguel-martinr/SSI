@@ -5,6 +5,9 @@ const alphabet = {
   'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19, 'U': 20, 'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25,
 };
 
+// const alphabet = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9};
+
+
 export const RSA = function(base = 26, alph = alphabet) {
   // Logging
   this.log = [];
@@ -129,7 +132,7 @@ export const RSA = function(base = 26, alph = alphabet) {
 
     const blockSize = this.getBlockSize(this.base, n);
 
-    const splittedBlocks = this.splitMessage(clearText, blockSize).map((block) => block.padEnd(blockSize, 'X'));
+    const splittedBlocks = this.splitMessage(clearText, blockSize).map((block) => block);
     const encodedBlocks = splittedBlocks.map((block) => this.encodeBlock(block));
     const cipheredBlocks = encodedBlocks.map((block) => this.cipherBlock(block, e, n));
     const decipheredMsg = cipheredBlocks.map((block) => this.decipherBlock(block, d, n));
@@ -142,19 +145,17 @@ export const RSA = function(base = 26, alph = alphabet) {
     this.log.encodedBlocks = encodedBlocks;
     this.log.cipheredBlocks = cipheredBlocks;
 
-    //   console.log(`Se comprueba que p y q son primos \n` +
-    //     `Se comprueba que d es primo con fi(n) = ${fiN}\n` +
-    //     `Se calcula e = ${e}\n` +
-    //     `Como n = ${n}, se divide el texto en bloques de ${blockSize} caracteres\n` +
-    //     `Se pasa cada bloque a decimal para poder cifrar, obteniendo ${encodedBlocks.join(', ')}\n` +
-    //     `Se calcula en decimal el texto cifrado: ${cipheredBlocks}\n` +
-    //     `Descifrado: ${decipheredMsg}\n` +
-    //     `Completo: ${decodedMsg}`);
-
-    // };
-
+    console.log(`Se comprueba que p y q son primos \n` +
+        `Se comprueba que d es primo con fi(n) = ${fiN}\n` +
+        `Se calcula e = ${e}\n` +
+        `Como n = ${n}, se divide el texto en bloques de ${blockSize} caracteres\n` +
+        `Se pasa cada bloque a decimal para poder cifrar, obteniendo ${encodedBlocks.join(', ')}\n` +
+        `Se calcula en decimal el texto cifrado: ${cipheredBlocks}\n` +
+        `Descifrado: ${decipheredMsg}\n` +
+        `Completo: ${decodedMsg}`);
 
   };
 };
 
 // rsa.cipher(msg, 2347, 347, 5);
+
