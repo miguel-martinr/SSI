@@ -1,0 +1,24 @@
+{
+  "name": "CoarseAcquisitionGenerator",
+  "version": "1.0.0",
+  "description": "C/A GPS generator javascript implementation",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miguel-martinr/CoarseAcquisitionGenerator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miguel-martinr/CoarseAcquisitionGenerator/issues"
+  },
+  "homepage": "https://github.com/miguel-martinr/CoarseAcquisitionGenerator#readme",
+  "devDependencies": {
+    "eslint": "^7.22.0"
+  }
+}
