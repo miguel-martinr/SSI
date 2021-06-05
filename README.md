@@ -3,7 +3,7 @@
 
 * ### [**Vigenére**](./#el-cifrado-de-vigenère)
 * ### [**RC4**](./#generador-rc4)
-* ### [**Byte Multiplier**](./#byte-multiplier)
+* ### [**Byte Multiplier**](./#byte-multiplier-1)
 * ### [**Rijndael (AES)**](./#rijndael)
 * * ### [**Rijndael (AES) Modo CBC**](./#rijndael-modo-cbc)
 * ### [**ElGamal**](./#elgamal-1)
